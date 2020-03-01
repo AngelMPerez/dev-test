@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <!-- Add to this component the controls to update,and delete the task -->
 <!-- we would usually call controllers to do this work, however -->
@@ -11,15 +12,50 @@
 
 	</style>
 	<template>
-		<li>{{task.name}}</li>
+		
+		<li>{{task.name}} 		
+		<!-- <button on-tap='handleTap1'> -->
+		<button>Delete</button>
+		<!-- </button> -->
+		<button on-tap='handleTap2'>Update</button>
+
+		<iron-request id="xhr" crossorigin="use-credentials"></iron-request>
+
+		
+		
+		</li>
 	</template>
 
+
     <script>
+		const xhr = new XMLHttpRequest();
+		const url="https://mywheeler.net/test/Taskmanager/app/controllers/deleteTask.jsp"
+		var params=null
 	    Polymer({
 	        is: 'dev-task',
 	        properties:{
 	        	task:Object
+	        },
+			
+		handleTap2: function() {
+			alert('Updated');
+			is: 'change'
+		  },
+
+      listeners: {
+        'tap': 'regularTa',
+        },
+
+      regularTa: function(e) {
+        alert('Deleted');
+		xhr.open('Delete', url)
+		xhr.send()
+      },
+	  getTasksResponse:function(request){
+	        	var response = request.detail.response;
+	        	this.set("tasks", response.rows);
 	        }
-	    });
+
+	});
     </script>
 </dom-module>
